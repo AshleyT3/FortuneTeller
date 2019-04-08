@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<meta charset="utf-8" />
+<title>The Fortune Teller</title>
+<script src="/socket.io/socket.io.js"></script>
+<script language="javascript" type="text/javascript">
+
+var locationUrl = new URL(window.location.href);
+//var wsUri = "ws://localhost:8080/";
+var wsUri = locationUrl.origin;
+var socket;
+
+function init() {
+
+  socket = io.connect(wsUri);
+  
+  socket.on('connect', function(){
+    writeToScreen("The customer connected with the fortune teller.");
+  });
+  
+  socket.on('event', function(data){
+      writeToScreen('event: ' + data);
+  });
+
+  socket.on('disconnect', function(){
+    writeToScreen("The fortune teller has vanished.");
+  });
+
+  socket.on('fortune teller answer', function(evt) { 
+    writeToScreen('<span style="color: blue; font-weight: bold;">Fortune teller says, "' + evt + '"</span>');
+  });
+
+  socket.on('fortune teller comment', function(evt) { 
+    writeToScreen('<span style="color: DarkRed; font-weight: bold;">Fortune teller comments, "' + evt + '"</span>');
+  });
+
+  // Click "ask" button on ENTER.
+  document.getElementById("theQuestion").addEventListener("keyup", function(event) {
+    if (event.keyCode === 13) {
+      event.preventDefault();
+      document.getElementById("ask").click();
+    }
+  });    
+}
+
+function padZeros(num, max) {
+  return ("0".repeat(max) + num).slice(-max);
+}
+
+function getTimeStamp(d = new Date) {
+  return d.getDay() + "/" + d.getMonth() + " @ " + 
+         d.getHours() + ":" + padZeros(d.getMinutes(), ) + ":" + padZeros(d.getSeconds(), 2);
+}
+
+function writeToScreen(message) {
+  output = document.getElementById("output");
+  var pre = document.createElement("p");
+  pre.style.wordWrap = "break-word";
+  pre.innerHTML = getTimeStamp() + " > " + message;
+  output.appendChild(pre);
+  output.scrollTop = output.scrollHeight;  
+}
+
+function askTheFortuneTeller() {
+  var element = document.getElementById("theQuestion");
+  var theQuestion = element.value;
+  socket.emit('customer question', theQuestion);
+  writeToScreen('You asked, "' + theQuestion + '"');
+  element.value = "";
+}
+
+window.addEventListener("load", init, false);
+
+</script>
+<html style="height: 100%">
+  <body style="height: 100%">
+    <h1>Ask the Fortune Teller</h1>
+    <h3>(Node.js, Express.js, WebSocket, Azure and your client.)</h3>
+    <label for="theQuestion">Your question:</label>
+    <input id="theQuestion" type="text" style="width:400px" autofocus />
+    <button id="ask" onclick="askTheFortuneTeller()">Ask the Fortune Teller</button>
+    <div id="answer"></div>
+    <h2>Conversation history:</h2>
+    <div id="output" style="overflow: scroll; width: 70%; height: 50%;"></div>      
+  </body>
+</html>

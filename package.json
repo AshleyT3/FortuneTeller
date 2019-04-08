@@ -1,0 +1,20 @@
+{
+  "name": "magic-response-server",
+  "version": "1.0.0",
+  "description": "WebSocket server app which responds to questions.",
+  "main": "SimpleServer.js",
+  "dependencies": {
+    "@types/ws": "^6.0.1",
+    "express": "^4.16.4",
+    "socket.io": "^2.2.0",
+    "typescript": "^3.4.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "tsc": "tsc",
+    "start": "node ./FortuneTellerServer.js",
+    "fortuneTeller": "node ./FortuneTellerServer.js"
+  },
+  "author": "Ashley",
+  "license": ""
+}
