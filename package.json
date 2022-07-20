@@ -4,10 +4,10 @@
   "description": "WebSocket server app which responds to questions.",
   "main": "SimpleServer.js",
   "dependencies": {
-    "@types/ws": "^6.0.1",
-    "express": "^4.16.4",
-    "socket.io": "^2.2.0",
-    "typescript": "^3.4.1"
+    "@types/ws": "^8.5.3",
+    "express": "^4.18.1",
+    "socket.io": "^4.5.1",
+    "typescript": "^4.7.4"
   },
   "devDependencies": {},
   "scripts": {

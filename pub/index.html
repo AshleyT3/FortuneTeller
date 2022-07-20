@@ -47,8 +47,8 @@ function padZeros(num, max) {
 }
 
 function getTimeStamp(d = new Date) {
-  return d.getDay() + "/" + d.getMonth() + " @ " + 
-         d.getHours() + ":" + padZeros(d.getMinutes(), ) + ":" + padZeros(d.getSeconds(), 2);
+  return padZeros(d.getMonth() + 1, 2) + "/" + padZeros(d.getDate(), 2) + " @ " + 
+         padZeros(d.getHours(), 2) + ":" + padZeros(d.getMinutes(), 2) + ":" + padZeros(d.getSeconds(), 2);
 }
 
 function writeToScreen(message) {
